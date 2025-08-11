@@ -1,6 +1,10 @@
+# Fixed CMakeLists.txt with C++ standard library linking
+CMAKE_MINIMUM_REQUIRED(VERSION 3.18.1)
+# Set Android STL type before project() command
+set(ANDROID_STL c++_shared)
+
 PROJECT(Sequencer)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.18.1)
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -49,4 +53,10 @@ TARGET_SOURCES(flutter_sequencer PRIVATE
 
 FIND_LIBRARY(android-lib android)
 
-TARGET_LINK_LIBRARIES(flutter_sequencer ${android-lib} oboe sfizz_static)
+# Fixed target link libraries with C++ standard library
+TARGET_LINK_LIBRARIES(flutter_sequencer 
+    ${android-lib} 
+    oboe 
+    sfizz_static 
+    c++_shared  # Critical addition to fix linker errors
+)
